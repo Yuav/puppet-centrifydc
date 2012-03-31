@@ -12,16 +12,14 @@ Features
 * Restricts server logins to "Domain Admins" group
 * Allows additional users and groups to be added to allowed logins
 
-Limitations
-===========
-
-This module is currently only setup and tested on Ubuntu systems >= 10.04 releases. 
-
 Instructions
 ============
 
 * Canonical partner repository must be enabled in /etc/apt/sources.list on 
-  the puppet client
+  the puppet client when using Ubuntu
+
+* For redhat or centos, you must provide a "site-packages" module that provides
+  the file "/var/cache/site-packages/centrifydc/centrifydc-5.0.2-rhel3-x86_64" 
 
 * Pre-create the target machine in the domain
   sudo adjoin -w -P -u <username> -n <new-hostname> your.domain.net
