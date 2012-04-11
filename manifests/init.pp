@@ -21,6 +21,12 @@ class centrifydc($domain = "vagrantup.com") {
 				notify => Exec["adjoin"],
 				require => File['/var/cache/site-packages/centrifydc/centrifydc-5.0.2-rhel3-x86_64.rpm']
 			}  
+                        package { "CentrifyDC-openssh":
+				ensure => absent,
+                        }
+                        package { "CentrifyDA":
+				ensure => absent,
+                        }
 		}
 		default: {
 			package { $centrifydc_package_name:
@@ -44,10 +50,11 @@ class centrifydc($domain = "vagrantup.com") {
     
     # Update Active Directory DNS servers with host name
     exec { "addns" :
-            path => "/usr/bin:/usr/sbin:/bin",
-	        returns => 0,
-            command => "addns -U -m",
-            logoutput => true,
+        path => "/usr/bin:/usr/sbin:/bin",
+        command => "addns -U -m",
+        onlyif => 'adinfo | grep "Not joined to any domain"',
+        logoutput => true,
+        require => Exec['adjoin'],
     }
     
     # Identify Ubuntu server and workstation machines by their kernel type
@@ -60,6 +67,7 @@ class centrifydc($domain = "vagrantup.com") {
 				group  => root,
 				mode   => 644,
 				source => "puppet:///modules/centrifydc/server_centrifydc.conf",
+                                replace => false,
 				require => Package["centrifydc"]
 			}
 		
