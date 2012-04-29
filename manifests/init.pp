@@ -6,6 +6,7 @@ class centrifydc($domain = "vagrantup.com") {
 
 	$centrifydc_package_name = $operatingsystem ? {
         redhat  => "CentrifyDC",
+        centos  => "CentrifyDC",
         default => "centrifydc"
     }
 
