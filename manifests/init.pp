@@ -34,8 +34,9 @@ class centrifydc ($domain = "cisco.com",
 		debian, ubuntu : {
 			package {
 				'python-software-properties' :
-					ensure => installed,
+					ensure => latest,
 					notify => Exec['partnerrepo'],
+					
 			}
 			exec {
 				'partnerrepo' :
